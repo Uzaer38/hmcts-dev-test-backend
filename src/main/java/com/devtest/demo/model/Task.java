@@ -2,6 +2,9 @@ package com.devtest.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tasks")
@@ -12,12 +15,14 @@ public class Task {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Title is required")
     private String title;
 
     private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull(message = "Status is required")
     private TaskStatus status;
 
     @Column(name = "due_date")

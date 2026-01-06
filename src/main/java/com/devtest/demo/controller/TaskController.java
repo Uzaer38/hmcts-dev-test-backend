@@ -6,6 +6,7 @@ import com.devtest.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
         return ResponseEntity.ok(taskService.createTask(task));
     }
 
@@ -48,7 +49,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTaskContent(@PathVariable Long id, @RequestBody Task task) {
+    public ResponseEntity<Task> updateTaskContent(@PathVariable Long id, @Valid @RequestBody Task task) {
         try {
             return ResponseEntity.ok(taskService.updateTaskContent(id, task));
         } catch (RuntimeException e) {
@@ -58,8 +59,12 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 
