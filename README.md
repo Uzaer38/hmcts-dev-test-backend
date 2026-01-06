@@ -15,6 +15,11 @@ mvn spring-boot:run
 
 It will be available at http://localhost:8080/
 
+Run the test suite with:
+```bash
+mvn test
+```
+
 API Endpoints:
 
 Base URL: /api/tasks
